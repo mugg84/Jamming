@@ -1,7 +1,8 @@
 import React from "react";
+
 import "./SearchBar.css";
 
-class SeearchBar extends React.Component {
+class SearchBar extends React.Component {
   render() {
     return (
       <div className="SearchBar">
@@ -12,4 +13,4 @@ class SeearchBar extends React.Component {
   }
 }
 
-export default SeearchBar;
+export default SearchBar;
