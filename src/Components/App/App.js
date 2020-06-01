@@ -32,7 +32,6 @@ class App extends React.Component {
       newPlaylist.push(track);
     }
     this.setState({ playlistTracks: newPlaylist });
-    console.log(this.state.playlistTracks);
   }
 
   removeTrack(track) {
