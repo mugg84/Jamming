@@ -1,4 +1,4 @@
-const clientID = "INSERT KEY HERE";
+const clientID = "f7f69f907c554ec6ad7dc5622e69888e";
 const redirectURI = "http://localhost:3000/";
 
 let accessToken;
@@ -42,6 +42,8 @@ const Spotify = {
             name: track.name,
             artists: track.artists[0].name,
             album: track.album.name,
+            image: track.album.images[0].url,
+            preview: track.preview_url,
             uri: track.uri,
           };
         });
