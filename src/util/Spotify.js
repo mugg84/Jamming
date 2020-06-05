@@ -18,7 +18,6 @@ const Spotify = {
       //clear parmeters
       window.setTimeout(() => (accessToken = ""), expiresIn * 1000);
       window.history.pushState("Access Token", null, "/");
-
       return accessToken;
     } else {
       const accessUrl = `https://accounts.spotify.com/authorize?client_id=${clientID}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectURI}`;
@@ -47,6 +46,21 @@ const Spotify = {
             uri: track.uri,
           };
         });
+      });
+  },
+
+  getPlaylist() {
+    const accessToken = Spotify.getAccessToken();
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    return fetch("https://api.spotify.com/v1/me/playlists", {
+      headers: headers,
+    })
+      .then((response) => response.json())
+      .then((jsonResponse) => {
+        return jsonResponse;
       });
   },
 

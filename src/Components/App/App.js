@@ -4,17 +4,21 @@ import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
 import Playlist from "../Playlist/Playlist";
 import Spotify from "../../util/Spotify";
+import PlaylistSpotify from "../PlaylistSpotify/PlaylistSpotify";
 
 import "./App.css";
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      searchInput: "",
       searchResults: [],
       playlistName: "New Playlist",
       playlistTracks: [],
+      localPlaylists: [],
     };
 
     this.addTrack = this.addTrack.bind(this);
@@ -22,6 +26,7 @@ class App extends React.Component {
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
+    this.getLocalPlaylists = this.getLocalPlaylists.bind(this);
   }
 
   addTrack(track) {
@@ -54,6 +59,24 @@ class App extends React.Component {
     });
   }
 
+  // keep search after url updated
+
+  componentDidMount() {
+    Spotify.getAccessToken();
+  }
+
+  getLocalPlaylists() {
+    Spotify.getPlaylist().then((playlistLists) => {
+      let newList = playlistLists.items.map((playlist) => {
+        return {
+          name: playlist.name,
+          id: playlist.id,
+        };
+      });
+      this.setState({ playlistLists: newList });
+    });
+  }
+
   search(term) {
     Spotify.search(term).then((searchResults) => {
       // filters results in order not to show tracks already in the playlist
@@ -61,7 +84,7 @@ class App extends React.Component {
         return this.state.playlistTracks.every((el) => el.uri !== track.uri);
       });
 
-      this.setState({ searchResults: searchResults });
+      this.setState({ searchResults: searchResults, searchInput: term });
     });
   }
 
@@ -87,6 +110,12 @@ class App extends React.Component {
                 onRemove={this.removeTrack}
                 onNameChange={this.updatePlaylistName}
                 onSave={this.savePlaylist}
+              />
+            }
+            {
+              <PlaylistSpotify
+                getLocalPlaylists={this.getLocalPlaylists}
+                playlistLists={this.state.localPlaylists}
               />
             }
           </div>

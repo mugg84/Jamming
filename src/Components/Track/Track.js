@@ -52,7 +52,7 @@ class Track extends React.Component {
       <div className="Track">
         <div className="Track-information">
           <h3>{this.props.track.name}</h3>
-          <img src={this.props.track.image} />
+          <img src={this.props.track.image} alt={this.props.track.artist} />
           <p>
             {this.props.track.artist} | {this.props.track.album}
           </p>
