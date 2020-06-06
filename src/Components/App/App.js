@@ -5,6 +5,7 @@ import SearchResults from "../SearchResults/SearchResults";
 import Playlist from "../Playlist/Playlist";
 import Spotify from "../../util/Spotify";
 import PlaylistSpotify from "../PlaylistSpotify/PlaylistSpotify";
+import ModifyPlaylist from "../ModifyPlaylist/ModifyPlaylist";
 
 import "./App.css";
 
@@ -18,6 +19,8 @@ class App extends React.Component {
       playlistName: "New Playlist",
       playlistTracks: [],
       localPlaylists: [],
+      localPlaylistTracks: [],
+      localPlaylistName: "",
     };
 
     this.addTrack = this.addTrack.bind(this);
@@ -70,8 +73,8 @@ class App extends React.Component {
   showList(playlistId) {
     Spotify.getPlaylistTracks(playlistId).then((playlist) => {
       this.setState({
-        playlistTracks: playlist.tracks,
-        playlistName: playlist.name,
+        localPlaylistTracks: playlist.tracks,
+        localPlaylistName: playlist.name,
       });
     });
   }
@@ -128,6 +131,12 @@ class App extends React.Component {
                 getLocalPlaylists={this.getLocalPlaylists}
                 playlistLists={this.state.localPlaylists}
                 showList={this.showList}
+              />
+            }
+            {
+              <ModifyPlaylist
+                localPlaylistTracks={this.state.localPlaylistTracks}
+                localPlaylistName={this.state.localPlaylistName}
               />
             }
           </div>
