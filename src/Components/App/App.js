@@ -8,7 +8,6 @@ import PlaylistSpotify from "../PlaylistSpotify/PlaylistSpotify";
 
 import "./App.css";
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -27,6 +26,7 @@ class App extends React.Component {
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
     this.getLocalPlaylists = this.getLocalPlaylists.bind(this);
+    this.showList = this.showList.bind(this);
   }
 
   addTrack(track) {
@@ -65,6 +65,17 @@ class App extends React.Component {
     Spotify.getAccessToken();
   }
 
+  //renders selected local playlist
+
+  showList(playlistId) {
+    Spotify.getPlaylistTracks(playlistId).then((playlist) => {
+      this.setState({
+        playlistTracks: playlist.tracks,
+        playlistName: playlist.name,
+      });
+    });
+  }
+
   getLocalPlaylists() {
     Spotify.getPlaylist().then((playlistLists) => {
       let newList = playlistLists.items.map((playlist) => {
@@ -73,7 +84,7 @@ class App extends React.Component {
           id: playlist.id,
         };
       });
-      this.setState({ playlistLists: newList });
+      this.setState({ localPlaylists: newList });
     });
   }
 
@@ -116,6 +127,7 @@ class App extends React.Component {
               <PlaylistSpotify
                 getLocalPlaylists={this.getLocalPlaylists}
                 playlistLists={this.state.localPlaylists}
+                showList={this.showList}
               />
             }
           </div>

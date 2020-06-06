@@ -7,6 +7,7 @@ import "./PlaylistSpotify.css";
 class PlaylistSpotify extends React.Component {
   constructor(props) {
     super(props);
+
     this.renderList = this.renderList.bind(this);
   }
 
@@ -18,11 +19,16 @@ class PlaylistSpotify extends React.Component {
     return (
       <div className="PlaylistSpotify">
         <h2>Local Playlists</h2>
-        <button className="Playlist-save" onClick={this.renderList}>
+        <button className="Playlist-get" onClick={this.renderList}>
           Get your local playlist
         </button>
         {this.props.playlistLists.map((singlePlay) => (
-          <SingleCurPlaylist name={singlePlay.name}/>
+          <SingleCurPlaylist
+            showList={this.props.showList}
+            id={singlePlay.id}
+            key={singlePlay.id}
+            name={singlePlay.name}
+          />
         ))}
       </div>
     );

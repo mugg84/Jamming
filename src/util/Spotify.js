@@ -60,7 +60,38 @@ const Spotify = {
     })
       .then((response) => response.json())
       .then((jsonResponse) => {
+        if (!jsonResponse) {
+          return [];
+        }
         return jsonResponse;
+      });
+  },
+
+  getPlaylistTracks(id) {
+    const accessToken = Spotify.getAccessToken();
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    return fetch(`https://api.spotify.com/v1/playlists/${id}`, {
+      headers: headers,
+    })
+      .then((response) => response.json())
+      .then((jsonResponse) => {
+        console.log(jsonResponse);
+        let tracks = jsonResponse.tracks.items.map((track) => {
+          return {
+            id: track.track.id,
+            name: track.track.name,
+            artists: track.track.artists[0].name,
+            album: track.track.album.name,
+            image: track.track.album.images[0].url,
+            preview: track.track.preview_url,
+            uri: track.track.uri,
+          };
+        });
+        let name = jsonResponse.name;
+        return { tracks: tracks, name: name };
       });
   },
 
