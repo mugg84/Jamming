@@ -21,7 +21,8 @@
   outline: none;
 }
 
-.SearchButton {
+.SearchButton,
+.result-type {
   cursor: pointer;
   width: 8.11rem;
   padding: 0.77rem 0;
@@ -35,6 +36,7 @@
   font-weight: 500;
 }
 
-.SearchButton:hover {
+.SearchButton:hover,
+.result-type:hover {
   background-color: rgba(108, 65, 233, 0.7);
 }

@@ -30,6 +30,9 @@ class SearchBar extends React.Component {
         <button onClick={this.search} className="SearchButton">
           SEARCH
         </button>
+        <button onClick={this.props.changePurpose} className="result-type">
+          {this.props.action} PLAYLIST
+        </button>
       </div>
     );
   }

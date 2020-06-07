@@ -21,6 +21,7 @@ class App extends React.Component {
       localPlaylists: [],
       localPlaylistTracks: [],
       localPlaylistName: "",
+      purpose: "Create",
     };
 
     this.addTrack = this.addTrack.bind(this);
@@ -30,6 +31,7 @@ class App extends React.Component {
     this.search = this.search.bind(this);
     this.getLocalPlaylists = this.getLocalPlaylists.bind(this);
     this.showList = this.showList.bind(this);
+    this.changePurpose = this.changePurpose.bind(this);
   }
 
   addTrack(track) {
@@ -102,6 +104,40 @@ class App extends React.Component {
     });
   }
 
+  changePurpose() {
+    this.state.purpose === "Create"
+      ? this.setState({ purpose: "Modify" })
+      : this.setState({ purpose: "Create" });
+  }
+
+  renderTypeOfResult() {
+    if (this.state.purpose === "Create") {
+      return (
+        <Playlist
+          playlistName={this.state.playlistName}
+          playlistTracks={this.state.playlistTracks}
+          onRemove={this.removeTrack}
+          onNameChange={this.updatePlaylistName}
+          onSave={this.savePlaylist}
+        />
+      );
+    } else if (this.state.purpose === "Modify") {
+      return (
+        <div class="localPlay">
+          <PlaylistSpotify
+            getLocalPlaylists={this.getLocalPlaylists}
+            playlistLists={this.state.localPlaylists}
+            showList={this.showList}
+          />
+          <ModifyPlaylist
+            localPlaylistTracks={this.state.localPlaylistTracks}
+            localPlaylistName={this.state.localPlaylistName}
+          />
+        </div>
+      );
+    }
+  }
+
   render() {
     return (
       <div>
@@ -109,7 +145,13 @@ class App extends React.Component {
           Ja<span className="highlight">mmm</span>ing
         </h1>
         <div className="App">
-          {<SearchBar onSearch={this.search} />}
+          {
+            <SearchBar
+              onSearch={this.search}
+              changePurpose={this.changePurpose}
+              action={this.state.purpose}
+            />
+          }
           <div className="App-playlist">
             {
               <SearchResults
@@ -117,28 +159,7 @@ class App extends React.Component {
                 onAdd={this.addTrack}
               />
             }
-            {
-              <Playlist
-                playlistName={this.state.playlistName}
-                playlistTracks={this.state.playlistTracks}
-                onRemove={this.removeTrack}
-                onNameChange={this.updatePlaylistName}
-                onSave={this.savePlaylist}
-              />
-            }
-            {
-              <PlaylistSpotify
-                getLocalPlaylists={this.getLocalPlaylists}
-                playlistLists={this.state.localPlaylists}
-                showList={this.showList}
-              />
-            }
-            {
-              <ModifyPlaylist
-                localPlaylistTracks={this.state.localPlaylistTracks}
-                localPlaylistName={this.state.localPlaylistName}
-              />
-            }
+            {this.renderTypeOfResult()}
           </div>
         </div>
       </div>
