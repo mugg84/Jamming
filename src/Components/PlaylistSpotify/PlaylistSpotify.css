@@ -3,7 +3,6 @@
 }
 
 .PlaylistSpotify {
-  width: 50%;
   height: 950px;
   overflow-y: scroll;
   padding: 0.88rem;

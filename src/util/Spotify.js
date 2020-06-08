@@ -78,7 +78,6 @@ const Spotify = {
     })
       .then((response) => response.json())
       .then((jsonResponse) => {
-        console.log(jsonResponse);
         let tracks = jsonResponse.tracks.items.map((track) => {
           return {
             id: track.track.id,
@@ -131,6 +130,53 @@ const Spotify = {
           }
         );
       });
+  },
+
+  addItemToPlaylist(playlistId, tracks) {
+    if (!playlistId || !tracks.length) {
+      return;
+    }
+
+    let uris = tracks.map((track) => track.uri);
+
+    const accessToken = Spotify.getAccessToken();
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    return fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+      headers: headers,
+      method: "POST",
+      body: JSON.stringify({ uris: uris }),
+    });
+  },
+
+  removeItemFromPlaylist(playlistId, tracks) {
+    if (!playlistId || !tracks.length) {
+      return;
+    }
+
+    let uris = tracks.map((track) => {
+      return { uri: track.uri };
+    });
+
+    const accessToken = Spotify.getAccessToken();
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    try {
+      return fetch(
+        `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+        {
+          headers: headers,
+          method: "DELETE",
+          body: JSON.stringify({ tracks: uris }),
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
   },
 };
 

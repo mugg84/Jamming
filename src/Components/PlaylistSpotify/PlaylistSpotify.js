@@ -1,27 +1,16 @@
 import React from "react";
 
 import SingleCurPlaylist from "../SingleCurPlaylist/SingleCurPlaylist";
+import ModifyPlaylist from "../ModifyPlaylist/ModifyPlaylist";
 
 import "./PlaylistSpotify.css";
 
 class PlaylistSpotify extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.renderList = this.renderList.bind(this);
-  }
-
-  renderList() {
-    this.props.getLocalPlaylists();
-  }
-
   render() {
     return (
       <div className="PlaylistSpotify">
         <h2>Local Playlists</h2>
-        <button className="Playlist-get" onClick={this.renderList}>
-          Get your local playlist
-        </button>
+
         {this.props.playlistLists.map((singlePlay) => (
           <SingleCurPlaylist
             showList={this.props.showList}
@@ -30,6 +19,13 @@ class PlaylistSpotify extends React.Component {
             name={singlePlay.name}
           />
         ))}
+
+        <ModifyPlaylist
+          localPlaylistTracks={this.props.localPlaylistTracks}
+          localPlaylistNameId={this.props.localPlaylistNameId}
+          removeTrack={this.props.removeTrack}
+          modifyPlaylist={this.props.modifyPlaylist}
+        />
       </div>
     );
   }

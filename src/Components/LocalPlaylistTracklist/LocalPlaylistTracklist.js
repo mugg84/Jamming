@@ -4,7 +4,7 @@ import "./LocalPlaylistTracklist.css";
 
 import Track from "../Track/Track";
 
-class Tracklist extends React.Component {
+class LocalPlaylistTracklist extends React.Component {
   constructor(props) {
     super(props);
 
@@ -18,8 +18,7 @@ class Tracklist extends React.Component {
           <Track
             key={track.id}
             track={track}
-            onAdd={this.props.onAdd}
-            onRemove={this.props.onRemove}
+            onRemove={this.props.onRemoveCurr}
             isRemoval={true}
           />
         ))}
@@ -28,4 +27,4 @@ class Tracklist extends React.Component {
   }
 }
 
-export default Tracklist;
+export default LocalPlaylistTracklist;
