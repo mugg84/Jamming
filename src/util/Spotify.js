@@ -1,4 +1,5 @@
-const clientID = "f7f69f907c554ec6ad7dc5622e69888e";
+// Add personal spotify API key
+const clientID = process.env.REACT_APP_JAMMING_CLIENT_ID;
 const redirectURI = "http://localhost:3000/";
 
 let accessToken;
