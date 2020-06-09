@@ -8,6 +8,10 @@ html {
   font-size: 18px;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 h1 {
   padding: 0.77rem 0;
   background-color: #010c3f;
@@ -24,11 +28,12 @@ h1 .highlight {
 h2 {
   font-family: "Poppins", sans-serif;
   font-size: 1.55rem;
+  color: #6c41ec;
 }
 
 .App {
   height: 100%;
-  padding: 0 10% 10% 10%;
+  padding: 0 10% 5% 10%;
   background-image: url("./background_photo_desktop.jpg");
   background-size: cover;
   background-position: center;
@@ -44,8 +49,9 @@ h2 {
   width: 100%;
 }
 
-.localPlay {
-  display: flex;
+.LocalPlay {
+  width: 75vh;
+  height: 205.2vh;
 }
 
 @media only screen and (max-width: 1020px) {

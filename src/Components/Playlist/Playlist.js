@@ -4,7 +4,6 @@ import "./Playlist.css";
 
 import Tracklist from "../Tracklist/Tracklist";
 
-
 class Playlist extends React.Component {
   constructor(props) {
     super(props);
@@ -18,20 +17,26 @@ class Playlist extends React.Component {
   render() {
     return (
       <div className="Playlist">
-        <input
-          value={this.props.playlistName}
-          onChange={this.handleNameChange}
-        />
-        {
-          <Tracklist
-            tracks={this.props.playlistTracks}
-            onRemove={this.props.onRemove}
-            isRemoval={true}
+        <div className="Playlist-Input">
+          <input
+            value={this.props.playlistName}
+            onChange={this.handleNameChange}
           />
-        }
-        <button className="Playlist-save" onClick={this.props.onSave}>
-          SAVE TO SPOTIFY
-        </button>
+        </div>
+        <div className="Playlist-Results">
+          {
+            <Tracklist
+              tracks={this.props.playlistTracks}
+              onRemove={this.props.onRemove}
+              isRemoval={true}
+            />
+          }
+        </div>
+        <div className="Playlist-Btn">
+          <button className="Playlist-save" onClick={this.props.onSave}>
+            SAVE TO SPOTIFY
+          </button>
+        </div>
       </div>
     );
   }

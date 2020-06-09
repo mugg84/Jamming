@@ -5,6 +5,7 @@ import SearchResults from "../SearchResults/SearchResults";
 import Playlist from "../Playlist/Playlist";
 import Spotify from "../../util/Spotify";
 import PlaylistSpotify from "../PlaylistSpotify/PlaylistSpotify";
+import ModifyPlaylist from "../ModifyPlaylist/ModifyPlaylist";
 
 import "./App.css";
 
@@ -20,7 +21,7 @@ class App extends React.Component {
       localPlaylists: [],
       localPlaylistTracks: [],
       localPlaylistNameId: {},
-      purpose: "Create",
+      purpose: "NEW",
       removeFromLocal: [],
       addToLocal: [],
     };
@@ -37,7 +38,7 @@ class App extends React.Component {
   }
 
   addTrack(track) {
-    if (this.state.purpose === "Create") {
+    if (this.state.purpose === "NEW") {
       let newPlaylist = this.state.playlistTracks;
       if (newPlaylist.find((playTrack) => playTrack.id === track.id)) {
         return;
@@ -45,7 +46,7 @@ class App extends React.Component {
         newPlaylist.push(track);
       }
       this.setState({ playlistTracks: newPlaylist });
-    } else if (this.state.purpose === "Modify") {
+    } else if (this.state.purpose === "MODIFY") {
       let newPlaylist = this.state.localPlaylistTracks;
       if (newPlaylist.find((playTrack) => playTrack.id === track.id)) {
         return;
@@ -58,7 +59,7 @@ class App extends React.Component {
   }
 
   removeTrack(track) {
-    if (this.state.purpose === "Create") {
+    if (this.state.purpose === "NEW") {
       let playlist = this.state.playlistTracks;
       let newPlaylist = playlist.filter(
         (playTrack) => playTrack.id !== track.id
@@ -66,7 +67,7 @@ class App extends React.Component {
       this.setState({
         playlistTracks: newPlaylist,
       });
-    } else if (this.state.purpose === "Modify") {
+    } else if (this.state.purpose === "MODIFY") {
       let tracksToRemove = this.state.removeFromLocal;
       let tracksToAdd = this.state.addToLocal;
       let newPlaylist = this.state.localPlaylistTracks.filter(
@@ -96,13 +97,15 @@ class App extends React.Component {
   }
 
   savePlaylist() {
-    const trackUris = this.state.playlistTracks.map((track) => track.uri);
-    Spotify.savePlaylist(this.state.playlistName, trackUris).then(() => {
-      this.setState({
-        playlistName: "New Playlist",
-        playlistTracks: [],
+    if (this.state.playlistTracks.length) {
+      const trackUris = this.state.playlistTracks.map((track) => track.uri);
+      Spotify.savePlaylist(this.state.playlistName, trackUris).then(() => {
+        this.setState({
+          playlistName: "New Playlist",
+          playlistTracks: [],
+        });
       });
-    });
+    }
   }
 
   // keep search after url updated
@@ -178,16 +181,16 @@ class App extends React.Component {
   }
 
   changePurpose() {
-    if (this.state.purpose === "Create") {
-      this.setState({ purpose: "Modify" });
+    if (this.state.purpose === "NEW") {
+      this.setState({ purpose: "MODIFY" });
       this.getLocalPlaylists();
     } else {
-      this.setState({ purpose: "Create" });
+      this.setState({ purpose: "NEW" });
     }
   }
 
   renderTypeOfResult() {
-    if (this.state.purpose === "Create") {
+    if (this.state.purpose === "NEW") {
       return (
         <Playlist
           playlistName={this.state.playlistName}
@@ -197,12 +200,14 @@ class App extends React.Component {
           onSave={this.savePlaylist}
         />
       );
-    } else if (this.state.purpose === "Modify") {
+    } else if (this.state.purpose === "MODIFY") {
       return (
-        <div className="localPlay">
+        <div className="LocalPlay">
           <PlaylistSpotify
             playlistLists={this.state.localPlaylists}
             showList={this.showList}
+          />
+          <ModifyPlaylist
             modifyPlaylist={this.modifyPlaylist}
             localPlaylistTracks={this.state.localPlaylistTracks}
             localPlaylistNameId={this.state.localPlaylistNameId.name}

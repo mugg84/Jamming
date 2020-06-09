@@ -1,9 +1,21 @@
 .SearchBar {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
   padding-top: 6.94rem;
   margin-bottom: 6.33rem;
+}
+
+.SearchBar-search {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 75vh;
+}
+
+.SearchBar-change {
+  width: 75vh;
+  text-align: center;
 }
 
 .SearchBar input {
