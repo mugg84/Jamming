@@ -1,25 +1,23 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import "./SingleCurPlaylist.css";
 
-class SingleCurPlaylist extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.showList = this.showList.bind(this);
+const SingleCurPlaylist = ({ showList, id, name }) => {
+  function getShowList() {
+    showList(id);
   }
 
-  showList() {
-    this.props.showList(this.props.id);
-  }
+  return (
+    <div className="Single-list" onClick={getShowList}>
+      <h4>{name}</h4>
+    </div>
+  );
+};
 
-  render() {
-    return (
-      <div className="Single-list" onClick={this.showList}>
-        <h4>{this.props.name}</h4>
-      </div>
-    );
-  }
-}
+SingleCurPlaylist.propTypes = {
+  showList: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+};
 
 export default SingleCurPlaylist;

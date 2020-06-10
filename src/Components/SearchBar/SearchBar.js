@@ -1,46 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 import "./SearchBar.css";
 
-class SearchBar extends React.Component {
-  constructor(props) {
-    super(props);
+const SearchBar = ({ changePurpose, action, onSearch }) => {
+  const [term, setTerm] = useState("");
 
-    this.state = { term: "" };
+  const handleTermChange = (event) => {
+    setTerm(event.target.value);
+  };
 
-    this.search = this.search.bind(this);
-    this.handleTermChange = this.handleTermChange.bind(this);
+  function search() {
+    onSearch(term);
   }
 
-  handleTermChange(event) {
-    this.setState({ term: event.target.value });
-  }
-
-  search() {
-    this.props.onSearch(this.state.term);
-  }
-
-  render() {
-    return (
-      <div className="SearchBar">
-        <div className="SearchBar-search">
-          <input
-            placeholder="Enter A Song, Album, or Artist"
-            onChange={this.handleTermChange}
-          />
-          <button onClick={this.search} className="SearchButton">
-            SEARCH
-          </button>
-        </div>
-
-        <div className="SearchBar-change">
-          <button onClick={this.props.changePurpose} className="result-type">
-            {this.props.action} PLAYLIST
-          </button>
-        </div>
+  return (
+    <div className="SearchBar">
+      <div className="SearchBar-search">
+        <input
+          placeholder="Enter A Song, Album, or Artist"
+          onChange={handleTermChange}
+        />
+        <button onClick={search} className="SearchButton">
+          SEARCH
+        </button>
       </div>
-    );
-  }
-}
+
+      <div className="SearchBar-change">
+        <button onClick={changePurpose} className="result-type">
+          {action} PLAYLIST
+        </button>
+      </div>
+    </div>
+  );
+};
+
+SearchBar.propTypes = {
+  changePurpose: PropTypes.func.isRequired,
+  action: PropTypes.string.isRequired,
+  onSearch: PropTypes.func.isRequired,
+};
 
 export default SearchBar;

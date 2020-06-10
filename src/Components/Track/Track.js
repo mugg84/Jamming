@@ -1,67 +1,64 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import "./Track.css";
 
-class Track extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.addTrack = this.addTrack.bind(this);
-    this.removeTrack = this.removeTrack.bind(this);
-    this.renderAudio = this.renderAudio.bind(this);
-  }
-
-  renderAction() {
-    if (this.props.isRemoval) {
+const Track = ({ isRemoval, track, onAdd, onRemove }) => {
+  const renderAction = () => {
+    if (isRemoval) {
       return (
-        <button className="Track-action" onClick={this.removeTrack}>
+        <button className="Track-action" onClick={removeTrack}>
           -
         </button>
       );
     } else {
       return (
-        <button className="Track-action" onClick={this.addTrack}>
+        <button className="Track-action" onClick={addTrack}>
           +
         </button>
       );
     }
-  }
+  };
 
-  renderAudio() {
-    if (this.props.track.preview) {
+  const renderAudio = () => {
+    if (track.preview) {
       return (
         <audio controls="controls" className="audioPreview">
-          <source src={this.props.track.preview} type="audio/mp4" />
+          <source src={track.preview} type="audio/mp4" />
         </audio>
       );
     } else {
       return <p>Preview not available</p>;
     }
-  }
+  };
 
-  addTrack() {
-    this.props.onAdd(this.props.track);
-  }
+  const addTrack = () => {
+    onAdd(track);
+  };
 
-  removeTrack() {
-    this.props.onRemove(this.props.track);
-  }
+  const removeTrack = () => {
+    onRemove(track);
+  };
 
-  render() {
-    return (
-      <div className="Track">
-        <div className="Track-information">
-          <h3>{this.props.track.name}</h3>
-          <img src={this.props.track.image} alt={this.props.track.artist}  />
-          <p>
-            {this.props.track.artist} | {this.props.track.album}
-          </p>
-          <div className="previewText">{this.renderAudio()}</div>
-        </div>
-        {this.renderAction()}
+  return (
+    <div className="Track">
+      <div className="Track-information">
+        <h3>{track.name}</h3>
+        <img src={track.image} alt={track.artist} />
+        <p>
+          {track.artist} | {track.album}
+        </p>
+        <div className="previewText">{renderAudio()}</div>
       </div>
-    );
-  }
-}
+      {renderAction()}
+    </div>
+  );
+};
+
+Track.propTypes = {
+  isRemoval: PropTypes.bool,
+  track: PropTypes.object.isRequired,
+  onAdd: PropTypes.func,
+  onRemove: PropTypes.func,
+};
 
 export default Track;

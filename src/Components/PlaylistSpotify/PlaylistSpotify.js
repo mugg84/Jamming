@@ -1,27 +1,27 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import SingleCurPlaylist from "../SingleCurPlaylist/SingleCurPlaylist";
-
 import "./PlaylistSpotify.css";
 
-class PlaylistSpotify extends React.Component {
-  render() {
-    return (
-      <div className="PlaylistSpotify">
-        <h2>Local Playlists</h2>
-        <div className="PlaylistSpotify-list">
-          {this.props.playlistLists.map((singlePlay) => (
-            <SingleCurPlaylist
-              showList={this.props.showList}
-              id={singlePlay.id}
-              key={singlePlay.id}
-              name={singlePlay.name}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-}
+const PlaylistSpotify = ({ playlistLists, showList }) => (
+  <div className="PlaylistSpotify">
+    <h2>Local Playlists</h2>
+    <div className="PlaylistSpotify-list">
+      {playlistLists.map((singlePlay) => (
+        <SingleCurPlaylist
+          showList={showList}
+          id={singlePlay.id}
+          key={singlePlay.id}
+          name={singlePlay.name}
+        />
+      ))}
+    </div>
+  </div>
+);
+
+PlaylistSpotify.propTypes = {
+  playlistLists: PropTypes.array.isRequired,
+  showList: PropTypes.func.isRequired,
+};
 
 export default PlaylistSpotify;
